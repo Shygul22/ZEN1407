@@ -11,9 +11,15 @@ function CustomersPage() {
   const [q, setQ] = useState("");
   const { data } = useQuery({
     queryKey: ["customers"],
-    queryFn: async () => (await supabase.from("customers").select("*").order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () =>
+      (await supabase.from("customers").select("*").order("created_at", { ascending: false }))
+        .data ?? [],
   });
-  const filtered = (data ?? []).filter((c) => `${c.cid} ${c.full_name} ${c.email} ${c.phone} ${c.location}`.toLowerCase().includes(q.toLowerCase()));
+  const filtered = (data ?? []).filter((c) =>
+    `${c.cid} ${c.full_name} ${c.email} ${c.phone} ${c.location}`
+      .toLowerCase()
+      .includes(q.toLowerCase()),
+  );
 
   return (
     <div className="space-y-4">
@@ -24,7 +30,12 @@ function CustomersPage() {
         </div>
         <div className="relative w-72">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search CID, name, phone…" className="pl-9" />
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search CID, name, phone…"
+            className="pl-9"
+          />
         </div>
       </div>
 

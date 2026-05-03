@@ -65,8 +65,6 @@ RLS on every table, scoped by role via `has_role(auth.uid(), 'role')`.
 
 Pre-populate ~5 customers, 8 jobs across statuses, 6 enquiries, balances, 4 sample videos, purchase + service history — so every screen is visibly populated for demo.
 
-
-
 - Real online payment processing
 - Real WhatsApp/SMS sending (buttons open `wa.me` / `tel:` / `mailto:` links)
 - Push notifications

@@ -1,8 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { AppRole } from "@/lib/auth";
 import { toast } from "sonner";
 
@@ -10,6 +23,8 @@ export const Route = createFileRoute("/staff/staff")({ component: StaffPage });
 
 const ROLES: { value: AppRole; label: string }[] = [
   { value: "super_admin", label: "Super Admin" },
+  { value: "admin", label: "Admin" },
+  { value: "service_eng", label: "Staff" },
   { value: "customer", label: "User" },
 ];
 
@@ -40,7 +55,10 @@ function StaffPage() {
     await supabase.from("user_roles").delete().eq("user_id", userId);
     const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: newRole });
     if (error) toast.error(error.message);
-    else { toast.success("Role updated"); qc.invalidateQueries({ queryKey: ["staff-list"] }); }
+    else {
+      toast.success("Role updated");
+      qc.invalidateQueries({ queryKey: ["staff-list"] });
+    }
   }
 
   return (
@@ -51,9 +69,14 @@ function StaffPage() {
       </div>
       <div className="overflow-hidden rounded-xl border bg-card">
         <Table>
-          <TableHeader><TableRow>
-            <TableHead>Name</TableHead><TableHead>Email</TableHead><TableHead>Current role</TableHead><TableHead className="w-[180px]">Set role</TableHead>
-          </TableRow></TableHeader>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Current role</TableHead>
+              <TableHead className="w-[180px]">Set role</TableHead>
+            </TableRow>
+          </TableHeader>
           <TableBody>
             {data?.map((u) => (
               <TableRow key={u.id}>
@@ -64,7 +87,9 @@ function StaffPage() {
                 </TableCell>
                 <TableCell>
                   <Select onValueChange={(v) => setRole(u.id, v as AppRole)}>
-                    <SelectTrigger className="h-8"><SelectValue placeholder="Change role" /></SelectTrigger>
+                    <SelectTrigger className="h-8">
+                      <SelectValue placeholder="Change role" />
+                    </SelectTrigger>
                     <SelectContent>
                       {ROLES.map((r) => (
                         <SelectItem key={r.value} value={r.value}>
@@ -79,7 +104,10 @@ function StaffPage() {
           </TableBody>
         </Table>
       </div>
-      <p className="text-xs text-muted-foreground">Tip: to make yourself the boss for the demo, sign up, then run this SQL once: <code>insert into user_roles(user_id, role) values ('YOUR_UID', 'super_admin');</code></p>
+      <p className="text-xs text-muted-foreground">
+        Tip: to make yourself the boss for the demo, sign up, then run this SQL once:{" "}
+        <code>insert into user_roles(user_id, role) values ('YOUR_UID', 'super_admin');</code>
+      </p>
     </div>
   );
 }

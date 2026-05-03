@@ -2,8 +2,24 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Wrench, MessageCircle, Phone, Mail, Smartphone, CreditCard, Star, MessageSquarePlus } from "lucide-react";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  Wrench,
+  MessageCircle,
+  Phone,
+  Mail,
+  Smartphone,
+  CreditCard,
+  Star,
+  MessageSquarePlus,
+} from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { ServiceForm } from "@/components/ServiceForm";
 
 export const Route = createFileRoute("/app/services")({ component: ServicesHome });
@@ -23,17 +39,24 @@ function ServicesHome() {
       <div className="px-5">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
-            <button className="block w-full rounded-2xl p-5 text-left text-primary-foreground shadow-lg transition-transform active:scale-[0.98]" style={{ background: "var(--gradient-primary)" }}>
+            <button
+              className="block w-full rounded-2xl p-5 text-left text-primary-foreground shadow-lg transition-transform active:scale-[0.98]"
+              style={{ background: "var(--gradient-primary)" }}
+            >
               <Wrench className="h-6 w-6" />
               <div className="mt-3 text-lg font-semibold">Register a service</div>
-              <p className="mt-0.5 text-sm text-primary-foreground/85">Tell us what's not working and we'll send help.</p>
+              <p className="mt-0.5 text-sm text-primary-foreground/85">
+                Tell us what's not working and we'll send help.
+              </p>
             </button>
           </DrawerTrigger>
           <DrawerContent>
             <div className="mx-auto w-full max-w-md">
               <DrawerHeader>
                 <DrawerTitle>Register a service</DrawerTitle>
-                <DrawerDescription>Tell us what's not working and we'll send help.</DrawerDescription>
+                <DrawerDescription>
+                  Tell us what's not working and we'll send help.
+                </DrawerDescription>
               </DrawerHeader>
               <div className="px-4 pb-10">
                 <ServiceForm onSuccess={() => setOpen(false)} />
@@ -45,7 +68,7 @@ function ServicesHome() {
 
       {!showContact ? (
         <div className="px-5">
-          <button 
+          <button
             onClick={() => setShowContact(true)}
             className="flex w-full items-center justify-between rounded-2xl border bg-card p-4 text-left shadow-sm transition-all hover:bg-accent/5"
           >
@@ -64,14 +87,24 @@ function ServicesHome() {
       ) : (
         <div className="px-5 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="mb-2 flex items-center justify-between">
-            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Contact us</div>
-            <button onClick={() => setShowContact(false)} className="text-xs text-primary underline-offset-4 hover:underline">Hide</button>
+            <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Contact us
+            </div>
+            <button
+              onClick={() => setShowContact(false)}
+              className="text-xs text-primary underline-offset-4 hover:underline"
+            >
+              Hide
+            </button>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <ContactBtn href="https://wa.me/919876543210" icon={MessageCircle} label="WhatsApp" />
             <ContactBtn href="tel:+919876543210" icon={Phone} label="Phone" />
             <ContactBtn href="mailto:hello@volta.demo" icon={Mail} label="Email" />
-            <Link to="/app/contact" className="rounded-xl border bg-card p-4 text-center"><Smartphone className="mx-auto h-5 w-5 text-primary" /><div className="mt-2 text-sm font-medium">In-app message</div></Link>
+            <Link to="/app/contact" className="rounded-xl border bg-card p-4 text-center">
+              <Smartphone className="mx-auto h-5 w-5 text-primary" />
+              <div className="mt-2 text-sm font-medium">In-app message</div>
+            </Link>
           </div>
         </div>
       )}
@@ -95,7 +128,14 @@ function ServicesHome() {
 function VideoSlideshow() {
   const { data } = useQuery({
     queryKey: ["feed-videos"],
-    queryFn: async () => (await supabase.from("videos").select("*").eq("visible", true).order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () =>
+      (
+        await supabase
+          .from("videos")
+          .select("*")
+          .eq("visible", true)
+          .order("created_at", { ascending: false })
+      ).data ?? [],
   });
   const [idx, setIdx] = useState(0);
   const slides = data ?? [];
@@ -115,13 +155,19 @@ function VideoSlideshow() {
         key={v.id}
         src={v.video_url}
         className="h-full w-full object-cover"
-        autoPlay loop muted playsInline
+        autoPlay
+        loop
+        muted
+        playsInline
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-4">
         <h2 className="text-base font-semibold text-white">{v.title}</h2>
         <p className="mt-0.5 line-clamp-1 text-xs text-white/85">{v.description}</p>
-        <Link to="/app/contact" className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+        <Link
+          to="/app/contact"
+          className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur"
+        >
           <MessageSquarePlus className="h-3.5 w-3.5" /> Enquire
         </Link>
       </div>
@@ -139,9 +185,22 @@ function VideoSlideshow() {
   );
 }
 
-function ContactBtn({ href, icon: Icon, label }: { href: string; icon: any; label: string }) {
+function ContactBtn({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+}) {
   return (
-    <a href={href} target="_blank" rel="noreferrer" className="rounded-xl border bg-card p-3 text-center sm:p-4">
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="rounded-xl border bg-card p-3 text-center sm:p-4"
+    >
       <Icon className="mx-auto h-5 w-5 text-primary" />
       <div className="mt-2 text-sm font-medium">{label}</div>
     </a>

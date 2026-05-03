@@ -1,9 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { StatusBadge } from "./staff.index";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/staff/jobs")({ component: JobsPage });
@@ -12,19 +25,28 @@ function JobsPage() {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["jobs"],
-    queryFn: async () => (await supabase.from("jobs").select("*").order("created_at", { ascending: false })).data ?? [],
+    queryFn: async () =>
+      (await supabase.from("jobs").select("*").order("created_at", { ascending: false })).data ??
+      [],
   });
 
   async function updateStatus(id: string, status: string) {
     const { error } = await supabase.from("jobs").update({ status }).eq("id", id);
-    if (error) toast.error(error.message); else { toast.success("Job updated"); qc.invalidateQueries({ queryKey: ["jobs"] }); qc.invalidateQueries({ queryKey: ["dashboard"] }); }
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Job updated");
+      qc.invalidateQueries({ queryKey: ["jobs"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+    }
   }
 
   return (
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Job List</h1>
-        <p className="text-sm text-muted-foreground">All scheduled and ongoing jobs across the team.</p>
+        <p className="text-sm text-muted-foreground">
+          All scheduled and ongoing jobs across the team.
+        </p>
       </div>
 
       {/* Mobile Cards */}
@@ -39,7 +61,7 @@ function JobsPage() {
               </div>
               <StatusBadge status={j.status} />
             </div>
-            
+
             <div className="mt-4 space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground/70">Location:</span> {j.location}
@@ -52,7 +74,9 @@ function JobsPage() {
             <div className="mt-4 border-t pt-4">
               <div className="mb-1.5 text-xs font-medium text-muted-foreground">Update Status</div>
               <Select value={j.status} onValueChange={(v) => updateStatus(j.id, v)}>
-                <SelectTrigger className="h-9 w-full"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="h-9 w-full">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="open">Open</SelectItem>
                   <SelectItem value="assigned">Assigned</SelectItem>
@@ -79,17 +103,27 @@ function JobsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground">Loading…</TableCell></TableRow>}
+            {isLoading && (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center text-muted-foreground">
+                  Loading…
+                </TableCell>
+              </TableRow>
+            )}
             {data?.map((j) => (
               <TableRow key={j.id}>
                 <TableCell className="font-mono text-xs">{j.cin}</TableCell>
                 <TableCell className="font-medium">{j.title}</TableCell>
                 <TableCell className="text-muted-foreground">{j.location}</TableCell>
                 <TableCell className="text-muted-foreground">{j.contact}</TableCell>
-                <TableCell><StatusBadge status={j.status} /></TableCell>
+                <TableCell>
+                  <StatusBadge status={j.status} />
+                </TableCell>
                 <TableCell>
                   <Select value={j.status} onValueChange={(v) => updateStatus(j.id, v)}>
-                    <SelectTrigger className="h-8"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-8">
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="open">Open</SelectItem>
                       <SelectItem value="assigned">Assigned</SelectItem>

@@ -23,22 +23,54 @@ function Contact() {
     e.preventDefault();
     setBusy(true);
     const { error } = await supabase.from("enquiries").insert({
-      name: name || user?.email, contact: contact || user?.email, source: "app", message,
+      name: name || user?.email,
+      contact: contact || user?.email,
+      source: "app",
+      message,
     });
     setBusy(false);
     if (error) toast.error(error.message);
-    else { toast.success("Sent! Our team will reach out."); setMessage(""); navigate({ to: "/app/services" }); }
+    else {
+      toast.success("Sent! Our team will reach out.");
+      setMessage("");
+      navigate({ to: "/app/services" });
+    }
   }
 
   return (
     <div className="p-5">
-      <button onClick={() => navigate({ to: "/app/services" })} className="mb-4 inline-flex items-center text-sm text-muted-foreground"><ChevronLeft className="h-4 w-4" /> Back</button>
+      <button
+        onClick={() => navigate({ to: "/app/services" })}
+        className="mb-4 inline-flex items-center text-sm text-muted-foreground"
+      >
+        <ChevronLeft className="h-4 w-4" /> Back
+      </button>
       <h1 className="text-2xl font-bold tracking-tight">Send us a message</h1>
       <form onSubmit={submit} className="mt-6 space-y-4">
-        <div><Label>Your name</Label><Input value={name} onChange={(e) => setName(e.target.value)} placeholder={user?.email ?? ""} /></div>
-        <div><Label>Contact (phone or email)</Label><Input value={contact} onChange={(e) => setContact(e.target.value)} /></div>
-        <div><Label>Message</Label><Textarea required rows={5} value={message} onChange={(e) => setMessage(e.target.value)} /></div>
-        <Button type="submit" disabled={busy} className="w-full">{busy ? "Sending…" : "Send message"}</Button>
+        <div>
+          <Label>Your name</Label>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={user?.email ?? ""}
+          />
+        </div>
+        <div>
+          <Label>Contact (phone or email)</Label>
+          <Input value={contact} onChange={(e) => setContact(e.target.value)} />
+        </div>
+        <div>
+          <Label>Message</Label>
+          <Textarea
+            required
+            rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </div>
+        <Button type="submit" disabled={busy} className="w-full">
+          {busy ? "Sending…" : "Send message"}
+        </Button>
       </form>
     </div>
   );

@@ -20,13 +20,19 @@ function AppLayout() {
     if (!loading && !user) navigate({ to: "/auth" });
   }, [loading, user, navigate]);
 
-  if (loading || !user) return <div className="grid min-h-screen place-items-center text-muted-foreground">Loading…</div>;
+  if (loading || !user)
+    return (
+      <div className="grid min-h-screen place-items-center text-muted-foreground">Loading…</div>
+    );
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col bg-background">
       <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-background/95 px-5 py-3 backdrop-blur">
         <div className="flex items-center gap-2">
-          <div className="grid h-8 w-8 place-items-center rounded-lg text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
+          <div
+            className="grid h-8 w-8 place-items-center rounded-lg text-primary-foreground"
+            style={{ background: "var(--gradient-primary)" }}
+          >
             <Wrench className="h-4 w-4" />
           </div>
           <span className="font-semibold tracking-tight">Volta</span>
@@ -39,7 +45,11 @@ function AppLayout() {
         {TABS.map((t) => {
           const active = loc.pathname.startsWith(t.to);
           return (
-            <Link key={t.to} to={t.to} className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[11px] ${active ? "text-primary" : "text-muted-foreground"}`}>
+            <Link
+              key={t.to}
+              to={t.to}
+              className={`flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[11px] ${active ? "text-primary" : "text-muted-foreground"}`}
+            >
               <t.icon className="h-5 w-5" />
               {t.label}
             </Link>

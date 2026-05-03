@@ -11,7 +11,12 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold">404</h1>
         <p className="mt-2 text-muted-foreground">Page not found.</p>
-        <Link to="/" className="mt-6 inline-flex rounded-md bg-primary px-4 py-2 text-primary-foreground">Go home</Link>
+        <Link
+          to="/"
+          className="mt-6 inline-flex rounded-md bg-primary px-4 py-2 text-primary-foreground"
+        >
+          Go home
+        </Link>
       </div>
     </div>
   );
@@ -23,14 +28,22 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Volta — Business Management Platform" },
-      { name: "description", content: "Unified platform for sales, service, accounts and customer engagement." },
+      {
+        name: "description",
+        content: "Unified platform for sales, service, accounts and customer engagement.",
+      },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: ({ children }) => (
     <html lang="en">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   ),
   component: RootComponent,

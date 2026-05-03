@@ -19,16 +19,28 @@ function NewService() {
 
   return (
     <div className="p-5">
-      <button onClick={() => navigate({ to: "/app/services" })} className="mb-4 inline-flex items-center text-sm text-muted-foreground"><ChevronLeft className="h-4 w-4" /> Back</button>
+      <button
+        onClick={() => navigate({ to: "/app/services" })}
+        className="mb-4 inline-flex items-center text-sm text-muted-foreground"
+      >
+        <ChevronLeft className="h-4 w-4" /> Back
+      </button>
       <h1 className="text-2xl font-bold tracking-tight">Register a service</h1>
       <div className="mt-6">
         <ServiceForm />
       </div>
 
       <div className="mt-8">
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Or contact us directly</div>
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Or contact us directly
+        </div>
         <div className="grid grid-cols-2 gap-3">
-          <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="rounded-xl border bg-card p-4 text-center">
+          <a
+            href="https://wa.me/919876543210"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl border bg-card p-4 text-center"
+          >
             <MessageCircle className="mx-auto h-5 w-5 text-primary" />
             <div className="mt-2 text-sm font-medium">WhatsApp</div>
           </a>

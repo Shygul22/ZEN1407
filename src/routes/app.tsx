@@ -1,7 +1,14 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useAuth } from "@/lib/auth";
+import { useAuth, type AppRole } from "@/lib/auth";
 import { Wrench, History, User } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const Route = createFileRoute("/app")({ component: AppLayout });
 
@@ -12,7 +19,7 @@ const TABS = [
 ];
 
 function AppLayout() {
-  const { user, loading } = useAuth();
+  const { user, loading, primaryRole, viewAs, setViewAs } = useAuth();
   const navigate = useNavigate();
   const loc = useLocation();
 
@@ -37,6 +44,23 @@ function AppLayout() {
           </div>
           <span className="font-semibold tracking-tight">Volta</span>
         </div>
+
+        {primaryRole === "super_admin" && (
+          <Select
+            value={viewAs ?? "super_admin"}
+            onValueChange={(v) => setViewAs(v === "super_admin" ? null : (v as AppRole))}
+          >
+            <SelectTrigger className="h-8 w-[110px] text-xs">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="super_admin">Boss</SelectItem>
+              <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="service_eng">Staff</SelectItem>
+              <SelectItem value="customer">User</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
       </header>
       <main className="flex-1 pb-20">
         <Outlet />

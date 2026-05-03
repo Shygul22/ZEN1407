@@ -10,7 +10,6 @@ export const Route = createFileRoute("/staff/staff")({ component: StaffPage });
 
 const ROLES: { value: AppRole; label: string }[] = [
   { value: "super_admin", label: "Super Admin" },
-  { value: "service_eng", label: "Staff" },
   { value: "customer", label: "User" },
 ];
 

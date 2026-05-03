@@ -107,8 +107,6 @@ function StaffLayout() {
                   <SelectTrigger className="h-8 w-[160px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="super_admin">Super Admin (me)</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="service_eng">Staff</SelectItem>
                     <SelectItem value="customer">User (app)</SelectItem>
                   </SelectContent>
                 </Select>
